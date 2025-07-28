@@ -58,9 +58,6 @@ const LoginPage = () => {
         <Button type="submit" variant="contained">
           Войти
         </Button>
-        <Button variant="outlined" onClick={() => navigate("/user/create")}>
-          Зарегистрироваться
-        </Button>
       </Box>
     </Box>
   );

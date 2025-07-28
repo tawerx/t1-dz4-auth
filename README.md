@@ -1,69 +1,60 @@
-# React + TypeScript + Vite
+# 🧾 Users Management App (Задание 4: Формы и Аутентификация)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Описание проекта
 
-Currently, two official plugins are available:
+Одностраничное приложение на React + TypeScript для работы с пользователями, включающее авторизацию, создание, редактирование и удаление пользователей. Проект реализован с использованием форм, маршрутизации, защищённых маршрутов и взаимодействием с REST API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Технологии
 
-## Expanding the ESLint configuration
+- **React + TypeScript**
+- **React Router v6** – маршрутизация
+- **Zustand** – state-менеджер
+- **Vite** – сборка проекта
+- **Tailwind CSS** – стилизация
+- **React Hook Form / Formik** – менеджеры форм
+- **Axios** – взаимодействие с API
+- **NestJS backend** – использовался бэк из задания (https://github.com/Pardeg/forms-server)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📂 Структура маршрутов
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Путь             | Описание                                |
+| ---------------- | --------------------------------------- |
+| `/`              | Главная страница, таблица пользователей |
+| `/login`         | Страница авторизации                    |
+| `/user/create`   | Страница создания пользователя          |
+| `/user/edit/:id` | Страница редактирования пользователя    |
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+> Все маршруты, кроме `/login`, защищены через `ProtectedRoute`.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📑 Особенности реализации
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Общий **Layout** с навигацией слева и хедером сверху.
+- `Header` и `Sidebar` отображаются на всех страницах кроме `/login`.
+- После успешного логина пользователь попадает на `/`.
+- После создания или редактирования — редирект на главную.
+- Авторизация реализована через `auth/me` и хранение токена в **cookies** (`HttpOnly`).
+- При получении 401 — редирект на `/login`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧮 Валидация форм
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Валидация реализована как через `React Hook Form`.
+- Страница `/user/create` использует **React Hook Form**
+- Проверки:
+  - `email` — корректный email
+  - `password` и `confirmPassword` — совпадение
+  - `name`, `surName`, `fullName` — макс длина
+  - `telephone` — регулярка
+  - `userAgreement` — чекбокс
+- `fullName` генерируется автоматически при вводе `name` и `surName`, но доступно для редактирования
+
+## 👤 Учетные данные по умолчанию
+
+Email: admin@inno.tech
+Password: admin
+
+## 📦 Установка и запуск
+
+git clone https://github.com/tawerx/t1-dz4-auth
+cd t1-dz4-auth
+npm install
+npm run dev
